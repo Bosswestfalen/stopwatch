@@ -1,0 +1,7 @@
+#ifndef BOSSWESTFALEN_STOPWATCH_HPP_
+#define BOSSWESTFALEN_STOPWATCH_HPP_
+
+// to come
+
+#endif
+
