@@ -1,1 +1,1 @@
-message("test to come")
+add_subdirectory(compiling-test)
