@@ -1,6 +1,4 @@
 #include <stopwatch.hpp>
-#include <type_traits>
-#include <utility>
 
 int main()
 {
