@@ -8,20 +8,21 @@ foreach(file ${files})
     add_executable(${testname}
                   ${file})
 
-    target_link_libraries(${testname} ${BWF_TARGET_NAME})
+    target_link_libraries(${testname}
+                          ${BWF_TARGET_NAME})
 
     target_include_directories(${testname}
-                               PUBLIC #INTERFACE
+                               PUBLIC
                                ${CMAKE_SOURCE_DIR}/src)
 
     set_target_properties(${testname}
                           PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-    add_test(NAME TEST-${testname}
+    add_test(NAME COMPILE-${testname}_${CMAKE_BUILD_TYPE}
              COMMAND ${CMAKE_MAKE_PROGRAM} ${testname}
              WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
-    set_tests_properties(TEST-${testname}
+    set_tests_properties(COMPILE-${testname}_${CMAKE_BUILD_TYPE}
                          PROPERTIES WILL_FAIL TRUE)
 endforeach()
 
@@ -35,16 +36,17 @@ foreach(file ${files})
     add_executable(${testname}
                   ${file})
 
-    target_link_libraries(${testname} ${BWF_TARGET_NAME})
+    target_link_libraries(${testname}
+                          ${BWF_TARGET_NAME})
 
     target_include_directories(${testname}
-                               PUBLIC #INTERFACE
+                               PUBLIC
                                ${CMAKE_SOURCE_DIR}/src)
 
     set_target_properties(${testname}
                           PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-    add_test(NAME TEST-${testname}
+    add_test(NAME COMPILE-${testname}_${CMAKE_BUILD_TYPE}
              COMMAND ${CMAKE_MAKE_PROGRAM} ${testname}
              WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 endforeach()
