@@ -16,8 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(BWF_TARGET_NAME ${PROJECT_NAME})
 
-add_library(${BWF_TARGET_NAME}
-            INTERFACE)
+add_library(${BWF_TARGET_NAME} INTERFACE)
 
 target_include_directories(${BWF_TARGET_NAME}
                            INTERFACE
@@ -31,6 +30,10 @@ option(BUILD_DEMO
        "Build demo applications"
        ON)
 
+option(BUILD_DOCS
+       "Build doxygen documentation"
+       ON)
+
 if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(test)
@@ -40,3 +43,11 @@ if(BUILD_DEMO)
     add_subdirectory(demo)
 endif()
 
+if(BUILD_DOCS)
+    find_package(Doxygen REQUIRED)
+
+    set(DOXYGEN_FULL_PATH_NAMES "YES")
+    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/doc)
+    set(DOXYGEN_STRIP_FROM_PATH ${CMAKE_SOURCE_DIR}/src)
+    doxygen_add_docs(doc ${CMAKE_SOURCE_DIR}/src)
+endif()
