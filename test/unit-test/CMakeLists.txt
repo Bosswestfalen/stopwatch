@@ -1,7 +1,7 @@
 add_library(catch_main OBJECT "catch_main.cpp")
 
 target_include_directories(catch_main 
-		           PRIVATE
+                           PRIVATE
                            ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
 file(GLOB files "test-*.cpp")
@@ -16,7 +16,7 @@ foreach(file ${files})
 
     target_include_directories(${testname}
                                PRIVATE
-			       ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
+                               ${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
     add_test(NAME UNIT-${testname}_${CMAKE_BUILD_TYPE}
              COMMAND ${testname})
