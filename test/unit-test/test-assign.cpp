@@ -1,5 +1,5 @@
 #include <catch/catch.hpp>
-#include <stopwatch.hpp>
+#include <bosswestfalen/stopwatch.hpp>
 
 SCENARIO("assign to variable", "[assign]")
 {

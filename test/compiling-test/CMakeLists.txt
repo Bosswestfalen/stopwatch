@@ -11,10 +11,6 @@ foreach(file ${files})
     target_link_libraries(${testname}
                           ${BWF_TARGET_NAME})
 
-    target_include_directories(${testname}
-                               PUBLIC
-                               ${CMAKE_SOURCE_DIR}/src)
-
     set_target_properties(${testname}
                           PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
@@ -38,10 +34,6 @@ foreach(file ${files})
 
     target_link_libraries(${testname}
                           ${BWF_TARGET_NAME})
-
-    target_include_directories(${testname}
-                               PUBLIC
-                               ${CMAKE_SOURCE_DIR}/src)
 
     set_target_properties(${testname}
                           PROPERTIES EXCLUDE_FROM_ALL TRUE)
