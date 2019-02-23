@@ -34,6 +34,10 @@ option(BUILD_DOCS
        "Build doxygen documentation"
        ON)
 
+option(BUILD_CODEANALYSIS
+       "Use clang-tidy to analyse code"
+       ON)
+
 if(BUILD_TESTING)
     enable_testing()
     add_subdirectory(test)
@@ -51,3 +55,17 @@ if(BUILD_DOCS)
     set(DOXYGEN_STRIP_FROM_PATH ${CMAKE_SOURCE_DIR}/src)
     doxygen_add_docs(doc ${CMAKE_SOURCE_DIR}/src)
 endif()
+
+if(BUILD_CODEANALYSIS)
+    find_program(CLANG_TIDY clang-tidy)
+    if(${CLANG_TIDY} STREQUAL "CLANG_TIDY-NOTFOUND")
+        message(FATAL_ERROR "Code analysis enabled, but clang-tidy not available!")
+    endif()
+
+    add_custom_target(codeanalysis
+                      COMMAND clang-tidy
+                      -checks=*,-google-readability-namespace-comments,-llvm-header-guard,-llvm-namespace-comment
+                      ${CMAKE_SOURCE_DIR}/src/bosswestfalen/stopwatch.hpp
+                      -extra-arg=-std=c++17)
+endif()
+
