@@ -29,7 +29,11 @@ target_compile_features(${BWF_TARGET_NAME}
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
         DESTINATION include)
 
-option(BUILD_DEMO
+option(BUILD_TESTS
+       "Build tests"
+       ON)
+
+option(BUILD_DEMOS
        "Build demo applications"
        ON)
 
@@ -41,14 +45,17 @@ option(BUILD_CODEANALYSIS
        "Use clang-tidy to analyse code"
        ON)
 
-if(BUILD_TESTING)
+
+if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif()
 
-if(BUILD_DEMO)
+
+if(BUILD_DEMOS)
     add_subdirectory(demo)
 endif()
+
 
 if(BUILD_DOCS)
     find_package(Doxygen REQUIRED)
