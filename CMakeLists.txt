@@ -26,6 +26,9 @@ target_compile_features(${BWF_TARGET_NAME}
                         INTERFACE
                         cxx_std_17)
 
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
+        DESTINATION include)
+
 option(BUILD_DEMO
        "Build demo applications"
        ON)
