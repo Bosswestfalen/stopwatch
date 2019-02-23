@@ -33,6 +33,7 @@ using time_type = decltype (std::chrono::high_resolution_clock::now().time_since
  * the duration.
  *
  * \tparam T Type of the target.
+ * \tparam R Time resolution, default is std::chrono::nanoseconds
  *
  * \attention T must fulfil one of the following requirements:
  *            \li \c std::is_nothrow_assignable_v<T&, time_type>
@@ -43,7 +44,8 @@ using time_type = decltype (std::chrono::high_resolution_clock::now().time_since
  * \todo Add support for rvalue invocable.<br/>
  *       Example: \c bosswestfalen::stopwatch sw{[](bosswestfalen::time_type const time) { process time }};
  */
-template <typename T>
+template <typename T,
+          typename R = std::chrono::nanoseconds>
 class stopwatch final
 {
     static_assert(std::is_nothrow_assignable_v<T&, time_type>
@@ -67,7 +69,7 @@ class stopwatch final
     ~stopwatch() noexcept
     {
         auto const end = std::chrono::high_resolution_clock::now();
-        auto const duration = std::chrono::duration_cast<std::chrono::nanoseconds> (end - m_start).count();
+        auto const duration = std::chrono::duration_cast<R> (end - m_start).count();
 
         if constexpr (std::is_nothrow_assignable_v<T&, time_type>)
         {
