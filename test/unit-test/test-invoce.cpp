@@ -1,5 +1,6 @@
-#include <catch/catch.hpp>
-#include <bosswestfalen/stopwatch.hpp>
+#include "bosswestfalen/stopwatch.hpp"
+#include "catch/catch.hpp"
+
 
 SCENARIO("invoce a function", "[invoce]")
 {

@@ -1,4 +1,4 @@
-#include <bosswestfalen/stopwatch.hpp>
+#include "bosswestfalen/stopwatch.hpp"
 
 
 int main()

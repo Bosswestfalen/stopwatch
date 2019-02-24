@@ -1,4 +1,5 @@
-#include <bosswestfalen/stopwatch.hpp>
+#include "bosswestfalen/stopwatch.hpp"
+
 
 struct test final
 {
