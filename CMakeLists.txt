@@ -74,7 +74,7 @@ if(BUILD_CODEANALYSIS)
 
     add_custom_target(codeanalysis
                       COMMAND clang-tidy
-                      -checks=*,-google-readability-namespace-comments,-llvm-header-guard,-llvm-namespace-comment
+                      -checks=*,-google-readability-namespace-comments,-llvm-header-guard,-llvm-namespace-comment,-fuchsia-trailing-return
                       ${CMAKE_SOURCE_DIR}/src/bosswestfalen/stopwatch.hpp
                       -extra-arg=-std=c++17)
 endif()
