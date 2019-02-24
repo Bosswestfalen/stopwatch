@@ -1,7 +1,7 @@
 /*!
  * \file stopwatch.hpp
  * \author Bosswestfalen (https://github.com/Bosswestfalen)
- * \version 0.0.1
+ * \version 1.0.0
  * \date 2019
  * \copyright MIT License
  */

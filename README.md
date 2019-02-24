@@ -1,5 +1,6 @@
 # bosswestfalen::stopwatch
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/bosswestfalen/stopwatch/development/LICENSE.MIT)
+[![GitHub Releases](https://img.shields.io/github/release/bosswestfalen/stopwatch.svg)](https://github.com/bosswestfalen/stopwatch/releases)
 
 `bosswestfalen::stopwatch` is a simple to use time measurement class.
 
