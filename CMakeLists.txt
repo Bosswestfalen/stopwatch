@@ -35,15 +35,15 @@ option(BUILD_TESTS
 
 option(BUILD_DEMOS
        "Build demo applications"
-       ON)
+       OFF)
 
 option(BUILD_DOCS
        "Build doxygen documentation"
-       ON)
+       OFF)
 
 option(BUILD_CODEANALYSIS
        "Use clang-tidy to analyse code"
-       ON)
+       OFF)
 
 
 if(BUILD_TESTS)
@@ -61,7 +61,7 @@ if(BUILD_DOCS)
     find_package(Doxygen REQUIRED)
 
     set(DOXYGEN_FULL_PATH_NAMES "YES")
-    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/doc)
+    set(DOXYGEN_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/docs)
     set(DOXYGEN_STRIP_FROM_PATH ${CMAKE_SOURCE_DIR}/src)
     doxygen_add_docs(doc ${CMAKE_SOURCE_DIR}/src)
 endif()
