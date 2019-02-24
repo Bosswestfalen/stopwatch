@@ -13,6 +13,7 @@
 
 #include <chrono>
 #include <type_traits>
+#include <utility>
 
 
 /*!
@@ -27,38 +28,32 @@ using time_type = decltype (std::chrono::high_resolution_clock::now().time_since
 /*!
  * \brief Stopwatch
  *
- * The stopwatch measures the time of its existence, by calculating 
- * the elapsed time between construction and destruction.
- * A "target" of type T is then called (in case of a callable) with or assigned to (in case of a variable)
+ * The stopwatch measures the time of its existence by calculating the elapsed time between construction
+ * and destruction.
+ * A "target" of type T is then assigned to (in case of an assignable) or called with (in case of an invocable)
  * the duration.
  *
  * \tparam T Type of the target.
- * \tparam R Time resolution, default is std::chrono::nanoseconds
+ * \tparam R Time resolution, default is std::chrono::nanoseconds.
  *
  * \attention T must fulfil one of the following requirements:
- *            \li \c std::is_nothrow_assignable_v<T&, time_type>
- *            \li \c std::is_nothrow_invocable_v<T&, time_type>
+ *            \li \c std::is_nothrow_assignable_v<T, time_type>
+ *            \li \c std::is_nothrow_invocable_v<T, time_type>
  *
- *            If more than one requirement is met, the first matching one will be used.
- *
- * \todo Add support for rvalue invocable.<br/>
- *       Example: \c bosswestfalen::stopwatch sw{[](bosswestfalen::time_type const time) { process time }};
+ *            If both requirements are met, the assignment will be executed.
  */
 template <typename T,
           typename R = std::chrono::nanoseconds>
 class stopwatch final
 {
-    static_assert(std::is_nothrow_assignable_v<T&, time_type>
-                  or std::is_nothrow_invocable_v<T&, time_type>);
-
   public:
     /*!
      * \brief Start time measurement.
      *
      * \param target The "target" of the measured time.
      */
-    explicit stopwatch(T& target) noexcept
-    : m_target{target},
+    explicit stopwatch(T target) noexcept
+    : m_target{std::forward<T>(target)},
       m_start{std::chrono::high_resolution_clock::now()}
     {
     }
@@ -71,13 +66,18 @@ class stopwatch final
         auto const end = std::chrono::high_resolution_clock::now();
         auto const duration = std::chrono::duration_cast<R> (end - m_start).count();
 
-        if constexpr (std::is_nothrow_assignable_v<T&, time_type>)
+        if constexpr (std::is_nothrow_assignable_v<T, time_type>)
         {
             m_target = duration;
         }
-        else // std::is_nothrow_invocable_v == true
+        else if constexpr (std::is_nothrow_invocable_v<T, time_type>)
         {
             m_target(duration);
+        }
+        else
+        {
+            static_assert(std::is_nothrow_assignable_v<T, time_type>
+                          or std::is_nothrow_invocable_v<T, time_type>);
         }
     }
 
@@ -95,11 +95,22 @@ class stopwatch final
 
   private:
     /// Target of the measured time.
-    T& m_target;
+    T m_target;
 
     /// Time point of construction.
     decltype(std::chrono::high_resolution_clock::now()) const m_start;
 };
+
+/*!
+ * \brief Deduction guide to force T to be a reference type.
+ *
+ * \tparam T Type of the target.
+ * \tparam R Time resolution, default is std::chrono::nanoseconds.
+ */
+template <typename T,
+          typename R = std::chrono::nanoseconds>
+explicit stopwatch(T&& target) -> stopwatch<T&&, R>;
+
 }
 
 #endif
