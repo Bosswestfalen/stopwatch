@@ -1,4 +1,4 @@
-#include <bosswestfalen/stopwatch.hpp>
+#include "bosswestfalen/stopwatch.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -38,12 +38,13 @@ int main()
 
     [&]()
     {
-        bosswestfalen::stopwatch sw{recursive_time};
+        // ignore that noexcept is wrong here...
+        bosswestfalen::stopwatch sw{[](unsigned const recursive_time) noexcept { std::cout << "Recursive time: " << recursive_time; }};
         result = recursive_fibonacci(N);
     }();
-    std::cout << "fib(" << N << ") = " << result << ", took: " << recursive_time << std::endl;
+    std::cout << ", result: fib(" << N << ") = " << result << std::endl;
 
     unsigned approx_time{0};
     result = approx_fibonacci(N, approx_time);
-    std::cout << "fib'(" << N << ") = " << result << ", took: " << approx_time << std::endl;
+    std::cout << "Approximation time: " << approx_time << ", result: fib'(" << N << ") = " << result << std::endl;
 }
